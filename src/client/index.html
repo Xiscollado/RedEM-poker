@@ -1,0 +1,177 @@
+<!doctype html>
+<html class="pokerTable">
+
+<head>
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/index.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <meta property="og:image" content="./img/pokerBanner.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>Despistaos RDR Póker</title>
+</head>
+
+<body>
+    <a class="btn waves-effect waves-light red darken-3 white-text disconnectButton red white-text"
+        onclick="disconnectFromServer()">Salir de la timba</a>
+
+    <div class="testInfo">
+        <ul>
+            <li class="red-text card-title important-title">Importante leer</li>
+            <li>* No te puedes unir a una partida ya empezada. <span class="red-text">Solución</span>: Crear una mesa
+                nueva</li>
+            <li>* A veces no deja comenzar una partida recién creada <span class="red-text">Solución</span>: Crear una
+                mesa nueva</li>
+            <li>* Abandonar una mesa puede bloquear la partida <span class="red-text">Solución</span>: Abandona la mesa
+                al final de una ronda, antes de comenzar la siguiente</li>
+            <li>* La tecla <span class="red-text">G</span> te permite interactuar con el entorno, hablar, etc... cuando
+                quieras volver a la partida pulsa <span class="red-text">G</span> de nuevo.</li>
+        </ul>
+    </div>
+
+    <span class="helper">Pulsa la tecla <span class="red-text">G</span> para interactuar con el entorno</span>
+
+    <div id="gameDiv">
+
+        <div id="playerInformationCard" class="card">
+            <div class="card-content white-text">
+                <span class="card-title center-align" id="usernamesMoney"></span>
+                <div id="status"></div>
+                <span class="card-title" id="usernamesCards"></span>
+                <div id="mycards"></div>
+                <div class="actions">
+                    <div id="blindStatus"></div>
+                    <div id="playNext"></div>
+                    <button onClick=fold() id="usernameFold" class="btn black white-text menuButtons">Abandonar</button>
+                    <button onClick=check() id="usernameCheck" class="btn red white-text menuButtons">Pasar</button>
+                    <button href="#betModal" onClick=updateBetModal() id="usernameBet"
+                        class="btn red white-text modal-trigger menuButtons">Apostar
+                    </button>
+                    <button onClick=call() id="usernameCall" class="btn red white-text menuButtons">Ir</button>
+                    <button href="#raiseModal" onClick=updateRaiseModal() id="usernameRaise"
+                        class="btn red white-text modal-trigger menuButtons">Subir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table">
+            <span id="table-title" class="card-title flex-child white-text"></span>
+            <div id="communityCards" class="flex-child"></div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div id="opponentCards"></div>
+    </div>
+
+    </div>
+    <div id="mainContent">
+        <div class="valign-wrapper row login-box">
+            <div class="col card hoverable s12 m4 black-background login-modal">
+                <form>
+                    <div class="card-content">
+                        <span class="card-title red-text text-xl">Crea o únete una timba de Póker</span>
+                        <p class="text-white">Crea o únete una timba y comparte el <span class="red-text">código</span>
+                            con otros
+                            jugadores para que se puedan unir
+                        </p>
+                    </div>
+                    <div class="card-action center-align">
+                        <a id="hostButton"
+                            class="btn-large waves-effect waves-light red darken-3 white-text modal-trigger"
+                            href="#hostModal">Crea una timba</a>
+                        <a id="joinButton"
+                            class="btn-large waves-effect waves-light red darken-3 white-text modal-trigger"
+                            href="#joinModal">Únete a una timba</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="hostModal" class="modal">
+        <div class="modal-content black-background">
+            <h4 class="red-text text-xl">Montando la timba</h4>
+            <div id="hostModalContent">
+                <p class="text-white">Obtén el código para que los demás jugadores puedan unirse a tu timba</p>
+                <button onclick=beginHost() type="submit"
+                    class="waves-effect waves-light red darken-3 white-text btn-flat text-white">Obtén código
+                </button>
+            </div>
+            <div id="playersNames" class="text-white"></div>
+            <div id="startGameArea" class="text-white"></div>
+        </div>
+    </div>
+    </div>
+    <div id="joinModal" class="modal">
+        <div class="modal-content black-background">
+            <h4 class="red-text text-xl">Únete a la timba</h4>
+            <div id="joinModalContent">
+                <p class="text-white">Introduce el código de la mesa</p>
+                <div class="input-field col s12">
+                    <label for="code">Código</label>
+                    <input type="text" name="code" id="code-field" class="text-white" required="required" />
+                </div>
+                <button onclick=joinRoom() type="submit"
+                    class="waves-effect waves-light red darken-3 white-text btn-flat">Siéntate a la mesa
+                </button>
+            </div>
+            <div id="playersNamesJoined" class="text-white"></div>
+            <div id="startGameAreaDisconnectSituation" class="text-white"></div>
+        </div>
+    </div>
+    <div id="betModal" class="modal">
+        <div class="modal-content black-background white-text">
+            <h4>Apuesta</h4>
+            <form action="#">
+                <div id="betDisplay">
+                    <p>Pon tu apuesta</p>
+                </div>
+                <p class="range-field">
+                    <input type="range" id="betRangeSlider" min="0" max="20" step="0.5" value="0"
+                        oninput="updateBetDisplay()" />
+                </p>
+            </form>
+            <br />
+            <button onclick=bet() type="submit"
+                class="modal-close waves-effect waves-light red darken-3 white-text btn-flat">Confirmar
+            </button>
+        </div>
+        <div class="modal-footer black-background">
+            <a href="#!" class="modal-close waves-effect waves-light btn-flat red-text">CERRAR</a>
+        </div>
+    </div>
+    <div id="raiseModal" class="modal">
+        <div class="modal-content black-background white-text">
+            <h4>Subir la apuesta</h4>
+            <form action="#">
+                <div id="raiseDisplay">
+                    <p>Sube la apuesta</p>
+                </div>
+                <p class="range-field">
+                    <input type="range" id="raiseRangeSlider" min="0" max="20" step="0.5" value="0"
+                        oninput="updateRaiseDisplay()" />
+                </p>
+            </form>
+            <br />
+            <button onclick=raise() type="submit"
+                class="modal-close waves-effect waves-light red darken-3 white-text btn-flat">Confirmar
+            </button>
+        </div>
+        <div class="modal-footer black-background">
+            <a href="#!" class="modal-close waves-effect waves-light btn-flat red-text">CERRAR</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js"></script>
+    <script src="./main.js"></script>
+    <script src="./js/materialize.min.js"></script>
+
+</body>
+
+</html>
