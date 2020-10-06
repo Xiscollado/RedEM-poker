@@ -1,9 +1,9 @@
 {
   "name": "redem-texasholdem",
   "version": "1.0.0",
-  "description": "Poker game for redem, based on the work of Peter Wu",
+  "description": "Poker game for redem, based on the work of Peter Wu <https://github.com/ptwu/distributed-texasholdem>",
   "main": "index.js",
-  "repository": "https://github.com/ptwu/distributed-texasholdem.git",
+  "repository": "https://github.com/Xiscollado/redem-poker",
   "author": "Xisco Lladó <xiscoo@gmail.com>",
   "license": "GNU",
   "scripts": {
