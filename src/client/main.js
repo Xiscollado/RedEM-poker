@@ -33,7 +33,7 @@ socket.on('hostRoom', function (data) {
   if (data != undefined) {
     //Envía el código al cliente
     if (data.players.length == 1) {
-      // parent.getCode(data.code);
+      parent.getCode(data.code);
     }
 
     if (data.players.length >= 5) {
@@ -847,7 +847,7 @@ function renderSelf(data) {
 
 function disconnectFromServer() {
   console.log(Math.round(myMoney));
-  // parent.playerDisconnected(Math.round(myMoney))
+  parent.playerDisconnected(Math.round(myMoney))
   setTimeout(() => {
     location.reload();
   }, 500)
@@ -856,6 +856,6 @@ function disconnectFromServer() {
 $(document).keypress(function (event) {
   var keycode = (event.key ? event.key : event.which);
   if (keycode == 'g') {
-    // parent.gPressed();
+    parent.gPressed();
   }
 });
